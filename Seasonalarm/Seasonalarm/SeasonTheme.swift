@@ -4,11 +4,28 @@ import Combine
 /// Holds the active season and provides season-aware styling helpers.
 /// Inject via .environmentObject(SeasonTheme()) at the root.
 final class SeasonTheme: ObservableObject {
-    @Published var season: Season = Season.current
+    @Published var season: Season = {
+        let s = Season.current
+        let month = Calendar.current.component(.month, from: Date())
+        print("🌿 SeasonTheme init → \(s.rawValue) (month \(month), \(SeasonDetector.shared.isNorthernHemisphere ? "northern" : "southern") hemisphere)")
+        return s
+    }()
 
-    /// Call when the app becomes active to refresh if the month changed
+    private var locationObserver: AnyCancellable?
+
+    init() {
+        // Re-evaluate season if location updates (hemisphere may change)
+        locationObserver = NotificationCenter.default
+            .publisher(for: .seasonDetectorDidUpdate)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.refresh() }
+    }
+
+    /// Call when the app becomes active to refresh if the season changed
     func refresh() {
-        season = Season.current
+        let s = Season.current
+        print("🌿 SeasonTheme refresh → \(s.rawValue)")
+        season = s
     }
 }
 

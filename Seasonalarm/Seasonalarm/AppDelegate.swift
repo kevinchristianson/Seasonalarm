@@ -29,6 +29,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options: [.alert, .sound, .badge]
         ) { _, _ in }
 
+        // Start location — used for hemisphere detection (northern vs southern seasons)
+        SeasonDetector.shared.requestLocation()
+
         let stopAction = UNNotificationAction(
             identifier: NotificationAction.stop,
             title: "Stop",

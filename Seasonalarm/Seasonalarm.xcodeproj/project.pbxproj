@@ -7,122 +7,68 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4469C9AD2F54054400F0B91E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4469C9AC2F54054400F0B91E /* WidgetKit.framework */; };
-		4469C9AF2F54054400F0B91E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4469C9AE2F54054400F0B91E /* SwiftUI.framework */; };
-		4469C9BE2F54054500F0B91E /* SeasonalarmControlExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4469C9AA2F54054400F0B91E /* SeasonalarmControlExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		44662ACE2F56860D00849CEF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44662ACD2F56860D00849CEF /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		4469C9BC2F54054500F0B91E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4469C8EE2F537E0700F0B91E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4469C9A92F54054400F0B91E;
-			remoteInfo = SeasonalarmControlExtension;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		4469C9C32F54054500F0B91E /* Embed Foundation Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				4469C9BE2F54054500F0B91E /* SeasonalarmControlExtension.appex in Embed Foundation Extensions */,
-			);
-			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		4469C8F62F537E0700F0B91E /* Seasonalarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seasonalarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4469C9AA2F54054400F0B91E /* SeasonalarmControlExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SeasonalarmControlExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		4469C9AC2F54054400F0B91E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
-		4469C9AE2F54054400F0B91E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		446629DF2F567A6A00849CEF /* Seasonalarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seasonalarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		44662ACD2F56860D00849CEF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		4469C9212F537FFB00F0B91E /* Exceptions for "Seasonalarm" folder in "Seasonalarm" target */ = {
+		44662A792F567CBD00849CEF /* Exceptions for "Seasonalarm" folder in "Seasonalarm" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 4469C8F52F537E0700F0B91E /* Seasonalarm */;
-		};
-		4469C9C22F54054500F0B91E /* Exceptions for "SeasonalarmControl" folder in "SeasonalarmControlExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 4469C9A92F54054400F0B91E /* SeasonalarmControlExtension */;
+			target = 446629DE2F567A6A00849CEF /* Seasonalarm */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4469C8F82F537E0700F0B91E /* Seasonalarm */ = {
+		446629E12F567A6A00849CEF /* Seasonalarm */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				4469C9212F537FFB00F0B91E /* Exceptions for "Seasonalarm" folder in "Seasonalarm" target */,
+				44662A792F567CBD00849CEF /* Exceptions for "Seasonalarm" folder in "Seasonalarm" target */,
 			);
 			path = Seasonalarm;
-			sourceTree = "<group>";
-		};
-		4469C9B02F54054400F0B91E /* SeasonalarmControl */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				4469C9C22F54054500F0B91E /* Exceptions for "SeasonalarmControl" folder in "SeasonalarmControlExtension" target */,
-			);
-			path = SeasonalarmControl;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4469C8F32F537E0700F0B91E /* Frameworks */ = {
+		446629DC2F567A6A00849CEF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4469C9A72F54054400F0B91E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4469C9AF2F54054400F0B91E /* SwiftUI.framework in Frameworks */,
-				4469C9AD2F54054400F0B91E /* WidgetKit.framework in Frameworks */,
+				44662ACE2F56860D00849CEF /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4469C8ED2F537E0700F0B91E = {
+		446629D62F567A6A00849CEF = {
 			isa = PBXGroup;
 			children = (
-				4469C8F82F537E0700F0B91E /* Seasonalarm */,
-				4469C9B02F54054400F0B91E /* SeasonalarmControl */,
-				4469C9AB2F54054400F0B91E /* Frameworks */,
-				4469C8F72F537E0700F0B91E /* Products */,
+				446629E12F567A6A00849CEF /* Seasonalarm */,
+				44662ACC2F56860C00849CEF /* Frameworks */,
+				446629E02F567A6A00849CEF /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		4469C8F72F537E0700F0B91E /* Products */ = {
+		446629E02F567A6A00849CEF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4469C8F62F537E0700F0B91E /* Seasonalarm.app */,
-				4469C9AA2F54054400F0B91E /* SeasonalarmControlExtension.appex */,
+				446629DF2F567A6A00849CEF /* Seasonalarm.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4469C9AB2F54054400F0B91E /* Frameworks */ = {
+		44662ACC2F56860C00849CEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4469C9AC2F54054400F0B91E /* WidgetKit.framework */,
-				4469C9AE2F54054400F0B91E /* SwiftUI.framework */,
+				44662ACD2F56860D00849CEF /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,100 +76,65 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4469C8F52F537E0700F0B91E /* Seasonalarm */ = {
+		446629DE2F567A6A00849CEF /* Seasonalarm */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4469C9012F537E0800F0B91E /* Build configuration list for PBXNativeTarget "Seasonalarm" */;
+			buildConfigurationList = 446629EA2F567A6C00849CEF /* Build configuration list for PBXNativeTarget "Seasonalarm" */;
 			buildPhases = (
-				4469C8F22F537E0700F0B91E /* Sources */,
-				4469C8F32F537E0700F0B91E /* Frameworks */,
-				4469C8F42F537E0700F0B91E /* Resources */,
-				4469C9C32F54054500F0B91E /* Embed Foundation Extensions */,
+				446629DB2F567A6A00849CEF /* Sources */,
+				446629DC2F567A6A00849CEF /* Frameworks */,
+				446629DD2F567A6A00849CEF /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4469C9BD2F54054500F0B91E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				4469C8F82F537E0700F0B91E /* Seasonalarm */,
+				446629E12F567A6A00849CEF /* Seasonalarm */,
 			);
 			name = Seasonalarm;
 			packageProductDependencies = (
 			);
 			productName = Seasonalarm;
-			productReference = 4469C8F62F537E0700F0B91E /* Seasonalarm.app */;
+			productReference = 446629DF2F567A6A00849CEF /* Seasonalarm.app */;
 			productType = "com.apple.product-type.application";
-		};
-		4469C9A92F54054400F0B91E /* SeasonalarmControlExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4469C9BF2F54054500F0B91E /* Build configuration list for PBXNativeTarget "SeasonalarmControlExtension" */;
-			buildPhases = (
-				4469C9A62F54054400F0B91E /* Sources */,
-				4469C9A72F54054400F0B91E /* Frameworks */,
-				4469C9A82F54054400F0B91E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				4469C9B02F54054400F0B91E /* SeasonalarmControl */,
-			);
-			name = SeasonalarmControlExtension;
-			packageProductDependencies = (
-			);
-			productName = SeasonalarmControlExtension;
-			productReference = 4469C9AA2F54054400F0B91E /* SeasonalarmControlExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4469C8EE2F537E0700F0B91E /* Project object */ = {
+		446629D72F567A6A00849CEF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
-					4469C8F52F537E0700F0B91E = {
-						CreatedOnToolsVersion = 26.3;
-					};
-					4469C9A92F54054400F0B91E = {
+					446629DE2F567A6A00849CEF = {
 						CreatedOnToolsVersion = 26.3;
 						LastSwiftMigration = 2630;
 					};
 				};
 			};
-			buildConfigurationList = 4469C8F12F537E0700F0B91E /* Build configuration list for PBXProject "Seasonalarm" */;
+			buildConfigurationList = 446629DA2F567A6A00849CEF /* Build configuration list for PBXProject "Seasonalarm" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 4469C8ED2F537E0700F0B91E;
+			mainGroup = 446629D62F567A6A00849CEF;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 4469C8F72F537E0700F0B91E /* Products */;
+			productRefGroup = 446629E02F567A6A00849CEF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4469C8F52F537E0700F0B91E /* Seasonalarm */,
-				4469C9A92F54054400F0B91E /* SeasonalarmControlExtension */,
+				446629DE2F567A6A00849CEF /* Seasonalarm */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4469C8F42F537E0700F0B91E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4469C9A82F54054400F0B91E /* Resources */ = {
+		446629DD2F567A6A00849CEF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -233,14 +144,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4469C8F22F537E0700F0B91E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4469C9A62F54054400F0B91E /* Sources */ = {
+		446629DB2F567A6A00849CEF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -249,16 +153,8 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		4469C9BD2F54054500F0B91E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4469C9A92F54054400F0B91E /* SeasonalarmControlExtension */;
-			targetProxy = 4469C9BC2F54054500F0B91E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		4469C8FF2F537E0800F0B91E /* Debug */ = {
+		446629E82F567A6C00849CEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -293,6 +189,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RLZMD22PLD;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -321,7 +218,7 @@
 			};
 			name = Debug;
 		};
-		4469C9002F537E0800F0B91E /* Release */ = {
+		446629E92F567A6C00849CEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -356,6 +253,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RLZMD22PLD;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -377,102 +275,36 @@
 			};
 			name = Release;
 		};
-		4469C9022F537E0800F0B91E /* Debug */ = {
+		446629EB2F567A6C00849CEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RLZMD22PLD;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Seasonalarm/Info.plist;
-				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kevinchristianson.Seasonalarm;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		4469C9032F537E0800F0B91E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RLZMD22PLD;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Seasonalarm/Info.plist;
-				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kevinchristianson.Seasonalarm;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		4469C9C02F54054500F0B91E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RLZMD22PLD;
+				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SeasonalarmControl/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = SeasonalarmControl;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_FILE = Seasonalarm/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kevinchristianson.Seasonalarm.SeasonalarmControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kevinchristianson.Seasonalarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "SeasonalarmControl/SeasonalarmControlExtension-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Seasonalarm/Seasonalarm-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -480,32 +312,36 @@
 			};
 			name = Debug;
 		};
-		4469C9C12F54054500F0B91E /* Release */ = {
+		446629EC2F567A6C00849CEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RLZMD22PLD;
+				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SeasonalarmControl/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = SeasonalarmControl;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_FILE = Seasonalarm/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kevinchristianson.Seasonalarm.SeasonalarmControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kevinchristianson.Seasonalarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "SeasonalarmControl/SeasonalarmControlExtension-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Seasonalarm/Seasonalarm-Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -515,34 +351,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4469C8F12F537E0700F0B91E /* Build configuration list for PBXProject "Seasonalarm" */ = {
+		446629DA2F567A6A00849CEF /* Build configuration list for PBXProject "Seasonalarm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4469C8FF2F537E0800F0B91E /* Debug */,
-				4469C9002F537E0800F0B91E /* Release */,
+				446629E82F567A6C00849CEF /* Debug */,
+				446629E92F567A6C00849CEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4469C9012F537E0800F0B91E /* Build configuration list for PBXNativeTarget "Seasonalarm" */ = {
+		446629EA2F567A6C00849CEF /* Build configuration list for PBXNativeTarget "Seasonalarm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4469C9022F537E0800F0B91E /* Debug */,
-				4469C9032F537E0800F0B91E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4469C9BF2F54054500F0B91E /* Build configuration list for PBXNativeTarget "SeasonalarmControlExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4469C9C02F54054500F0B91E /* Debug */,
-				4469C9C12F54054500F0B91E /* Release */,
+				446629EB2F567A6C00849CEF /* Debug */,
+				446629EC2F567A6C00849CEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 4469C8EE2F537E0700F0B91E /* Project object */;
+	rootObject = 446629D72F567A6A00849CEF /* Project object */;
 }

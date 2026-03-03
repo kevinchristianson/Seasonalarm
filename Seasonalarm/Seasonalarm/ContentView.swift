@@ -7,32 +7,31 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            // Full-screen seasonal background
+            // Seasonal background fills everything
             SeasonalBackground(season: theme.season)
                 .ignoresSafeArea()
 
-            // Main content
+            // Main alarm list
             VStack(spacing: 0) {
-                if audioManager.isPlaying && alarmManager.ringingAlarmId == nil {
-                    // Banner only when audio plays without a ringing alarm (e.g. edge cases)
-                    AlarmBannerView()
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                }
+                AlarmBannerView()
+                    .opacity(audioManager.isPlaying && alarmManager.ringingAlarmId == nil ? 1 : 0)
+                    .frame(height: audioManager.isPlaying && alarmManager.ringingAlarmId == nil ? nil : 0)
+                    .clipped()
                 AlarmListView()
             }
             .padding(.top, safeAreaTop)
 
-            // Full-screen alarm takeover
+            // Full-screen alarm takeover when ringing
             if let ringingId = alarmManager.ringingAlarmId,
                let alarm = alarmManager.alarm(withId: ringingId) {
                 AlarmScreen(alarm: alarm)
                     .environmentObject(theme)
+                    .ignoresSafeArea()
                     .zIndex(100)
             }
         }
         .environmentObject(theme)
-        .animation(.spring(response: 0.4, dampingFraction: 0.8), value: audioManager.isPlaying)
-        .animation(.easeInOut(duration: 0.3), value: alarmManager.ringingAlarmId)
+        .animation(.easeInOut(duration: 0.35), value: alarmManager.ringingAlarmId)
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
             theme.refresh()
         }
@@ -52,7 +51,7 @@ struct SeasonalBackground: View {
 
     var body: some View {
         ZStack {
-            if let uiImage = UIImage(named: season.backgroundImageName) {
+            if let uiImage = loadBackground(for: season) {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFill()
@@ -70,6 +69,23 @@ struct SeasonalBackground: View {
         .animation(.easeInOut(duration: 1.0), value: season)
     }
 
+    private func loadBackground(for season: Season) -> UIImage? {
+        let name = season.backgroundImageName
+        // 1. Asset catalog (preferred — handles @2x/@3x automatically)
+        if let img = UIImage(named: name) { return img }
+        // 2. Direct bundle path — for images added to the project without an asset catalog entry
+        let extensions = ["png", "jpg", "jpeg"]
+        for ext in extensions {
+            if let url = Bundle.main.url(forResource: name, withExtension: ext),
+               let img = UIImage(contentsOfFile: url.path) {
+                print("📸 Loaded \(name) from bundle path (.\(ext))")
+                return img
+            }
+        }
+        print("⚠️ No background image found for \(season.rawValue) — using gradient fallback")
+        return nil
+    }
+
     private var fallbackColors: [Color] {
         switch season {
         case .spring: return [Color(hex: "#1a2e1a"), Color(hex: "#0d1a0d")]
@@ -79,6 +95,8 @@ struct SeasonalBackground: View {
         }
     }
 }
+
+// MARK: - Color hex init
 
 extension Color {
     init(hex: String) {

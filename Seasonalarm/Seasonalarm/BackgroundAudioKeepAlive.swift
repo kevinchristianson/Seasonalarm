@@ -27,7 +27,7 @@ final class BackgroundAudioKeepAlive {
             try AVAudioSession.sharedInstance().setCategory(
                 .playback,
                 mode: .default,
-                options: []
+                options: [.duckOthers]
             )
             try AVAudioSession.sharedInstance().setActive(true)
             silentPlayer = try AVAudioPlayer(contentsOf: url)

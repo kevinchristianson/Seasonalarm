@@ -233,14 +233,20 @@ final class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     private func play(url: URL) {
         stopAlarm()
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
+            let session = AVAudioSession.sharedInstance()
+            // .playback bypasses the hardware mute/silent switch.
+            // .duckOthers lowers any competing audio so the alarm cuts through clearly.
+            try session.setCategory(.playback, mode: .default, options: [.duckOthers])
+            try session.setActive(true, options: .notifyOthersOnDeactivation)
             player = try AVAudioPlayer(contentsOf: url)
             player?.delegate = self
             player?.numberOfLoops = -1
+            player?.volume = 1.0   // max relative to system; can't override system slider
+            player?.prepareToPlay()
             player?.play()
             isPlaying = true
             nowPlayingFile = url.lastPathComponent
+            print("▶️ Playing: \(url.lastPathComponent)")
         } catch {
             print("❌ Audio playback error: \(error)")
         }
