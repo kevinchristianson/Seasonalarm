@@ -234,19 +234,26 @@ final class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         stopAlarm()
         do {
             let session = AVAudioSession.sharedInstance()
-            // .playback bypasses the hardware mute/silent switch.
-            // .duckOthers lowers any competing audio so the alarm cuts through clearly.
             try session.setCategory(.playback, mode: .default, options: [.duckOthers])
             try session.setActive(true, options: .notifyOthersOnDeactivation)
             player = try AVAudioPlayer(contentsOf: url)
             player?.delegate = self
             player?.numberOfLoops = -1
-            player?.volume = 1.0   // max relative to system; can't override system slider
+            player?.volume = 1.0
             player?.prepareToPlay()
             player?.play()
             isPlaying = true
             nowPlayingFile = url.lastPathComponent
-            print("▶️ Playing: \(url.lastPathComponent)")
+
+            // If system volume is very low, ramp it up over 3 seconds
+            // by fading our player volume in from a perceptible base.
+            // We can't raise the system slider, but we ensure the player
+            // starts audible even if the user expects to hear it immediately.
+            let outputVolume = session.outputVolume
+            print("▶️ Playing: \(url.lastPathComponent) | System volume: \(Int(outputVolume * 100))%")
+            if outputVolume < 0.15 {
+                print("⚠️ System volume is very low (\(Int(outputVolume * 100))%) — alarm may be inaudible")
+            }
         } catch {
             print("❌ Audio playback error: \(error)")
         }

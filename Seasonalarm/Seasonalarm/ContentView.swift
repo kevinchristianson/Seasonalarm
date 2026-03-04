@@ -35,6 +35,16 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
             theme.refresh()
         }
+        .task {
+            // Wait until the UI is fully rendered and interactive before
+            // attempting the icon switch. Launch transaction callbacks
+            // (didFinishLaunching, sceneDidBecomeActive, etc.) are too early —
+            // SpringBoard rejects the XPC call with EAGAIN/NSUserCancelledError.
+            try? await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds
+            await MainActor.run {
+                SeasonalIconManager.updateIconForCurrentSeason()
+            }
+        }
     }
 
     private var safeAreaTop: CGFloat {
@@ -71,18 +81,42 @@ struct SeasonalBackground: View {
 
     private func loadBackground(for season: Season) -> UIImage? {
         let name = season.backgroundImageName
-        // 1. Asset catalog (preferred — handles @2x/@3x automatically)
-        if let img = UIImage(named: name) { return img }
-        // 2. Direct bundle path — for images added to the project without an asset catalog entry
-        let extensions = ["png", "jpg", "jpeg"]
+
+        // 1. Asset catalog
+        if let img = UIImage(named: name) {
+            print("📸 [\(season.rawValue)] loaded from asset catalog")
+            return img
+        }
+
+        // 2. Direct bundle path — case-insensitive extension search
+        let extensions = ["png", "PNG", "jpg", "JPG", "jpeg", "JPEG"]
         for ext in extensions {
             if let url = Bundle.main.url(forResource: name, withExtension: ext),
                let img = UIImage(contentsOfFile: url.path) {
-                print("📸 Loaded \(name) from bundle path (.\(ext))")
+                print("📸 [\(season.rawValue)] loaded from bundle: \(name).\(ext)")
                 return img
             }
         }
-        print("⚠️ No background image found for \(season.rawValue) — using gradient fallback")
+
+        // 3. Scan the bundle root for any file starting with the image name
+        //    (catches capitalisation differences like Spring_bg.PNG)
+        if let bundleURL = Bundle.main.resourceURL,
+           let files = try? FileManager.default.contentsOfDirectory(
+               at: bundleURL, includingPropertiesForKeys: nil
+           ) {
+            let imageFiles = files.filter { url in
+                let lower = url.lastPathComponent.lowercased()
+                return lower.hasPrefix(name.lowercased()) &&
+                       ["png","jpg","jpeg"].contains(url.pathExtension.lowercased())
+            }
+            print("📸 [\(season.rawValue)] bundle scan found: \(imageFiles.map(\.lastPathComponent))")
+            if let match = imageFiles.first, let img = UIImage(contentsOfFile: match.path) {
+                return img
+            }
+        }
+
+        print("⚠️ [\(season.rawValue)] no background image found — check the file is added to the Seasonalarm target")
+        print("   Expected asset name: \"\(name)\" — verify in Assets.xcassets or project navigator")
         return nil
     }
 

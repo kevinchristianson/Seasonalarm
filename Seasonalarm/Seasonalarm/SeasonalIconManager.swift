@@ -1,40 +1,83 @@
 import UIKit
+import AVFoundation
 
-/// Switches the app icon to match the current season.
-/// Requires alternate icon sets in Assets.xcassets named AppIcon-Summer,
-/// AppIcon-Fall, AppIcon-Winter, and CFBundleAlternateIcons in Info.plist.
 enum SeasonalIconManager {
 
+    /// Attempt to set the seasonal icon. Retries with backoff until success.
+    /// Call this AFTER heavy launch work (staging, etc.) is complete.
     @MainActor
     static func updateIconForCurrentSeason() {
         let season = Season.current
-        let targetIcon = iconName(for: season)
-        let currentIcon = UIApplication.shared.alternateIconName
+        let target = iconName(for: season)
+        let current = UIApplication.shared.alternateIconName
 
-        print("🎨 Icon check — season: \(season.rawValue), current icon: \(currentIcon ?? "primary"), target: \(targetIcon ?? "primary")")
+        print("🎨 Icon check — season: \(season.rawValue), current: '\(current ?? "primary")', target: '\(target ?? "primary")'")
 
-        guard currentIcon != targetIcon else {
-            print("🎨 Icon already correct, skipping")
-            return
-        }
-
+        guard current != target else { print("🎨 Icon already correct"); return }
         guard UIApplication.shared.supportsAlternateIcons else {
-            print("⚠️ Alternate icons not supported — check Info.plist CFBundleAlternateIcons entries")
+            print("❌ supportsAlternateIcons = false — check Info.plist")
             return
         }
 
-        UIApplication.shared.setAlternateIconName(targetIcon) { error in
+        // Fully reset the audio session — setAlternateIconName fails with EAGAIN
+        // while the .playback category is active, even with the player stopped.
+        BackgroundAudioKeepAlive.shared.stop()
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setActive(false, options: .notifyOthersOnDeactivation)
+            try session.setCategory(.ambient)   // neutral category
+            try session.setActive(false)
+            print("🎨 Audio session reset to .ambient")
+        } catch {
+            print("🎨 Audio session reset warning: \(error)")
+        }
+
+        // Wait for SpringBoard to register the session change
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            attempt(target: target, retryCount: 0)
+        }
+    }
+
+    @MainActor
+    private static func restoreAudioSession() {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default, options: [.duckOthers])
+            try session.setActive(true)
+            BackgroundAudioKeepAlive.shared.start()
+            print("🎨 Audio session restored to .playback")
+        } catch {
+            print("🎨 Audio session restore warning: \(error)")
+        }
+    }
+
+    @MainActor
+    private static func attempt(target: String?, retryCount: Int) {
+        let maxRetries = 5
+        let delays: [Double] = [2, 3, 5, 8, 13]
+
+        UIApplication.shared.setAlternateIconName(target) { error in
             if let error {
-                print("⚠️ Icon switch failed: \(error.localizedDescription)")
-                print("   Make sure AppIcon-\(season.rawValue) exists in Assets.xcassets and Info.plist")
+                let nsErr = error as NSError
+                print("🎨 Attempt \(retryCount + 1) failed (domain: \(nsErr.domain) code: \(nsErr.code))")
+                if retryCount < maxRetries {
+                    let delay = delays[min(retryCount, delays.count - 1)]
+                    print("🎨 Retrying in \(Int(delay))s...")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                        Task { @MainActor in attempt(target: target, retryCount: retryCount + 1) }
+                    }
+                } else {
+                    print("❌ Icon switch gave up — restoring audio session")
+                    restoreAudioSession()
+                }
             } else {
-                print("🎨 Icon switched to \(targetIcon ?? "primary") (\(season.rawValue))")
+                print("🎨 Icon successfully set to: \(target ?? "primary (Spring)")")
+                restoreAudioSession()
             }
         }
     }
 
-    /// nil = primary icon (Spring uses the default AppIcon)
-    private static func iconName(for season: Season) -> String? {
+    static func iconName(for season: Season) -> String? {
         switch season {
         case .spring: return nil
         case .summer: return "AppIcon-Summer"

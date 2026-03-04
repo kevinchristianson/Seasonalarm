@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct AddEditAlarmView: View {
     @Environment(\.dismiss) private var dismiss
@@ -11,20 +12,70 @@ struct AddEditAlarmView: View {
     @State private var label = ""
     @State private var repeatDays: Set<Weekday> = []
     @State private var isEnabled = true
+    @State private var systemVolumeLow = false
+    @State private var volumeObserver: NSKeyValueObservation?
 
     private var isEditing: Bool { existingAlarm != nil }
 
     var body: some View {
         ZStack {
-            // Blurred version of the seasonal background
+            // Blurred seasonal background
             SeasonalBackground(season: theme.season)
                 .ignoresSafeArea()
                 .blur(radius: 8)
 
-            // Dark scrim
             Color.black.opacity(0.45).ignoresSafeArea()
 
-            NavigationView {
+            VStack(spacing: 0) {
+                // ── Custom header — no NavigationView so no UIKit oval interference ──
+                HStack {
+                    Button { dismiss() } label: {
+                        Text("Cancel")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.red.opacity(0.9))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 7)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.red.opacity(0.12))
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .strokeBorder(Color.red.opacity(0.3), lineWidth: 1))
+                            )
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.leading, 8)
+
+                    Spacer()
+
+                    Text(isEditing ? "Edit Alarm" : "New Alarm")
+                        .font(.system(size: 17, weight: .semibold, design: .monospaced))
+                        .foregroundStyle(theme.season.accentColor)
+
+                    Spacer()
+
+                    Button { save() } label: {
+                        Text("Save")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(Color(red: 0.2, green: 0.85, blue: 0.4))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 7)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color(red: 0.2, green: 0.85, blue: 0.4).opacity(0.12))
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .strokeBorder(Color(red: 0.2, green: 0.85, blue: 0.4).opacity(0.3), lineWidth: 1))
+                            )
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.trailing, 8)
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 20)
+                .padding(.bottom, 12)
+
+                PixelDivider(color: .white.opacity(0.15))
+
+                // ── Content ──
                 ScrollView {
                     VStack(spacing: 16) {
 
@@ -49,6 +100,25 @@ struct AddEditAlarmView: View {
                         // Repeat days
                         sectionCard(header: "REPEAT") {
                             WeekdaySelectorView(selectedDays: $repeatDays, season: theme.season)
+                        }
+
+                        // Low volume warning
+                        if systemVolumeLow {
+                            sectionCard {
+                                HStack(spacing: 14) {
+                                    Image(systemName: "speaker.slash.fill")
+                                        .font(.system(size: 22))
+                                        .foregroundStyle(.orange)
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("VOLUME IS LOW")
+                                            .pixelFont(11, weight: .bold)
+                                            .foregroundStyle(.orange)
+                                        Text("Turn up your media volume so the alarm is audible.")
+                                            .font(.system(size: 11, design: .monospaced))
+                                            .foregroundStyle(.white.opacity(0.7))
+                                    }
+                                }
+                            }
                         }
 
                         // Seasonal sound note
@@ -87,7 +157,6 @@ struct AddEditAlarmView: View {
                                                 .strokeBorder(Color.red.opacity(0.3), lineWidth: 1))
                                     )
                             }
-                            .padding(.horizontal, 2)
                         }
 
                         Spacer(minLength: 32)
@@ -95,40 +164,17 @@ struct AddEditAlarmView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 16)
                 }
-                .scrollContentBackground(.hidden)
-                .background(Color.clear)
-                .navigationTitle("")
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text(isEditing ? "Edit Alarm" : "New Alarm")
-                            .font(.system(size: 17, weight: .semibold, design: .monospaced))
-                            .foregroundStyle(theme.season.accentColor)
-                    }
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Text("Cancel")
-                                .font(.system(size: 15, weight: .regular))
-                                .foregroundStyle(.white.opacity(0.75))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            save()
-                        } label: {
-                            Text("Save")
-                                .font(.system(size: 15, weight: .semibold))
-                                .foregroundStyle(theme.season.accentColor)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
             }
-            .colorScheme(.dark)
         }
-        .onAppear { prefill() }
+        .onAppear {
+            prefill()
+            checkVolume()
+            startVolumeObserver()
+        }
+        .onDisappear {
+            volumeObserver?.invalidate()
+            volumeObserver = nil
+        }
     }
 
     @ViewBuilder
@@ -143,6 +189,25 @@ struct AddEditAlarmView: View {
             content()
                 .padding(16)
                 .seasonCard(season: theme.season)
+        }
+    }
+
+    private func checkVolume() {
+        let vol = AVAudioSession.sharedInstance().outputVolume
+        systemVolumeLow = vol < 0.2
+        print("🔊 System output volume: \(Int(vol * 100))%")
+    }
+
+    private func startVolumeObserver() {
+        let session = AVAudioSession.sharedInstance()
+        try? session.setActive(true)
+        volumeObserver = session.observe(\.outputVolume, options: [.new]) { _, change in
+            DispatchQueue.main.async {
+                let vol = change.newValue ?? session.outputVolume
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    systemVolumeLow = vol < 0.2
+                }
+            }
         }
     }
 

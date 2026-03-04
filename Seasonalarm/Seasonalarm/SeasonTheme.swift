@@ -18,7 +18,9 @@ final class SeasonTheme: ObservableObject {
         locationObserver = NotificationCenter.default
             .publisher(for: .seasonDetectorDidUpdate)
             .receive(on: RunLoop.main)
-            .sink { [weak self] _ in self?.refresh() }
+            .sink { [weak self] _ in
+                self?.refresh()
+            }
     }
 
     /// Call when the app becomes active to refresh if the season changed

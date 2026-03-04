@@ -9,7 +9,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey: Any] = [:]
     ) -> Bool {
-        // Handles seasonalarm:// deep link from the Control Center widget
         return url.scheme == "seasonalarm"
     }
 
@@ -29,19 +28,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options: [.alert, .sound, .badge]
         ) { _, _ in }
 
-        // Start location — used for hemisphere detection (northern vs southern seasons)
         SeasonDetector.shared.requestLocation()
 
-        let stopAction = UNNotificationAction(
-            identifier: NotificationAction.stop,
-            title: "Stop",
-            options: [.destructive]
-        )
-        let snoozeAction = UNNotificationAction(
-            identifier: NotificationAction.snooze,
-            title: "Snooze 9 min",
-            options: []
-        )
+        let stopAction   = UNNotificationAction(identifier: NotificationAction.stop,   title: "Stop",         options: [.destructive])
+        let snoozeAction = UNNotificationAction(identifier: NotificationAction.snooze, title: "Snooze 9 min", options: [])
         let alarmCategory = UNNotificationCategory(
             identifier: NotificationCategory.alarm,
             actions: [stopAction, snoozeAction],
@@ -54,23 +44,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Switch app icon to match the current season
-        Task { @MainActor in SeasonalIconManager.updateIconForCurrentSeason() }
-
-        // Every time app comes to foreground: restart keepalive + timers
-        // (handles the case where iOS killed us after an update/reboot)
         let alarms = AlarmManager.shared.alarms
-        let hasActive = alarms.contains { $0.isEnabled }
-        if hasActive {
+        if alarms.contains(where: { $0.isEnabled }) {
             BackgroundAudioKeepAlive.shared.start()
             AlarmScheduler.shared.rescheduleAll(alarms)
         }
-        // Queue the next background refresh
         BackgroundRefresh.scheduleNext()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Ensure a background refresh is queued whenever we background
         BackgroundRefresh.scheduleNext()
     }
 
@@ -81,12 +63,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
-        // App is foregrounded — AlarmScheduler timer will have fired audio already.
-        // Just show the banner for the Stop/Snooze actions.
         completionHandler([.banner, .list])
     }
 
-    // MARK: - Notification response (tap or action button)
+    // MARK: - Notification response
 
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
@@ -96,7 +76,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         let userInfo = response.notification.request.content.userInfo
 
         switch response.actionIdentifier {
-
         case NotificationAction.stop:
             Task { @MainActor in AlarmManager.shared.stopRinging() }
 
@@ -111,12 +90,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             Task { @MainActor in AlarmManager.shared.stopRinging() }
 
         default:
-            // User tapped notification body — app opens, start audio if not already playing
             Task { @MainActor in
                 guard let id = userInfo[NotificationKey.alarmId] as? String,
                       let alarm = AlarmManager.shared.alarm(withId: id)
                 else { return }
-                // Only start if AlarmScheduler hasn't already fired
                 if !AudioManager.shared.isPlaying {
                     AlarmManager.shared.startRinging(id: id)
                     AudioManager.shared.playSeasonalAlarm(for: alarm)
