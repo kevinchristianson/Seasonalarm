@@ -10,6 +10,18 @@
 		44662ACE2F56860D00849CEF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44662ACD2F56860D00849CEF /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		44B89A972F5CC61F00C39A5C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		446629DF2F567A6A00849CEF /* Seasonalarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seasonalarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44662ACD2F56860D00849CEF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -83,6 +95,7 @@
 				446629DB2F567A6A00849CEF /* Sources */,
 				446629DC2F567A6A00849CEF /* Frameworks */,
 				446629DD2F567A6A00849CEF /* Resources */,
+				44B89A972F5CC61F00C39A5C /* CopyFiles */,
 			);
 			buildRules = (
 			);

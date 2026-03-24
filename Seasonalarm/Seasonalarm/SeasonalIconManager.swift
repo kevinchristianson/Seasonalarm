@@ -13,10 +13,33 @@ enum SeasonalIconManager {
 
         print("🎨 Icon check — season: \(season.rawValue), current: '\(current ?? "primary")', target: '\(target ?? "primary")'")
 
-        guard current != target else { print("🎨 Icon already correct"); return }
+        // guard current != target else { print("🎨 Icon already correct"); return }
         guard UIApplication.shared.supportsAlternateIcons else {
             print("❌ supportsAlternateIcons = false — check Info.plist")
             return
+        }
+
+        // Diagnostic: confirm icon PNGs are in the bundle
+        let iconFiles = ["AppIcon-Winter.png", "AppIcon-Summer.png", "AppIcon-Fall.png"]
+        for file in iconFiles {
+            let name = (file as NSString).deletingPathExtension
+            let ext  = (file as NSString).pathExtension
+            if let url = Bundle.main.url(forResource: name, withExtension: ext) {
+                let attrs = try? FileManager.default.attributesOfItem(atPath: url.path)
+                let size = attrs?[.size] as? Int ?? 0
+                print("✅ Bundle: \(file) — \(size) bytes at \(url.lastPathComponent)")
+            } else {
+                print("❌ Bundle MISSING: \(file)")
+            }
+        }
+
+        // List ALL files in the bundle root that start with "AppIcon"
+        let bundleURL = Bundle.main.bundleURL
+        if let files = try? FileManager.default.contentsOfDirectory(at: bundleURL, includingPropertiesForKeys: nil) {
+            let iconRelated = files.filter { $0.lastPathComponent.hasPrefix("AppIcon") }
+                                   .map { $0.lastPathComponent }
+                                   .sorted()
+            print("🗂 All AppIcon files in bundle: \(iconRelated)")
         }
 
         // Fully reset the audio session — setAlternateIconName fails with EAGAIN
